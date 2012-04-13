@@ -1,17 +1,16 @@
-import os
-
+from rq import use_connection, Queue
 from flask import Flask
+
+from tasks import clone_and_push
+from constants import *
+
 app = Flask(__name__)
 
-VERSION = "0.0.1"
+# rq setup
+use_connection()
+q = Queue()
 
-HG_REPO = os.environ.get('HG_REPO')
-GIT_REPO = os.environ.get('GIT_REPO')
-
-REPO_NAME = HG_REPO.split("/")[-1]
-REPO_PATH = "tmp/%s" % REPO_NAME
-
-app.debug = os.environ.get('DEBUG', False)
+app.debug = DEBUG
 
 @app.route('/')
 def index():
@@ -19,11 +18,8 @@ def index():
 
 @app.route('/hook', methods=["POST"])
 def hook():
-    print "cloning %s to %s" % (HG_REPO, REPO_PATH)
-    os.system("hg clone %s %s" % (HG_REPO, REPO_PATH))
-    print "removing %s" % REPO_PATH
-    os.system("rm -rf %s" % REPO_PATH)
-    return "mirroring\n"
+    q.enqueue(clone_and_push)
+    return "push queued"
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
