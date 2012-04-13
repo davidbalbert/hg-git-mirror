@@ -9,6 +9,7 @@ HG_REPO = os.environ.get('HG_REPO')
 GIT_REPO = os.environ.get('GIT_REPO')
 
 REPO_NAME = HG_REPO.split("/")[-1]
+REPO_PATH = "tmp/%s" % REPO_NAME
 
 app.debug = os.environ.get('DEBUG', False)
 
@@ -18,8 +19,10 @@ def index():
 
 @app.route('/hook', methods=["POST"])
 def hook():
-    print "cloning %s to ./tmp/%s" % (HG_REPO, REPO_NAME)
-    os.system("hg clone %s tmp/%s" % (HG_REPO, REPO_NAME))
+    print "cloning %s to %s" % (HG_REPO, REPO_PATH)
+    os.system("hg clone %s %s" % (HG_REPO, REPO_PATH))
+    print "removing %s" % REPO_PATH
+    os.system("rm -rf %s" % REPO_PATH)
     return "mirroring\n"
 
 if __name__ == '__main__':
