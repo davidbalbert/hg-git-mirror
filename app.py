@@ -28,6 +28,7 @@ def hook():
 @app.route('/gittest')
 def gittest():
     from tasks import run_with_private_key
+    os.system("pwd")
     run_with_private_key("ssh -T git@github.com")
     return "results in the log"
 
