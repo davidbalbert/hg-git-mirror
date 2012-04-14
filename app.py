@@ -27,11 +27,9 @@ def hook():
 
 @app.route('/gittest')
 def gittest():
-    from tasks import run_with_private_key
-    os.system("pwd")
-    os.system("find tmp")
-    run_with_private_key("ssh -T git@github.com")
-    return "results in the log"
+    from tasks import ssh_to_github
+    q.enqueue(ssh_to_github)
+    return "results in the log?"
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.

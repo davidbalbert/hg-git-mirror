@@ -4,6 +4,11 @@ from subprocess import Popen, PIPE, STDOUT
 
 from constants import *
 
+def ssh_to_github():
+    os.system("pwd")
+    os.system("find tmp")
+    run_with_private_key("ssh -T git@github.com")
+
 def clone_and_push():
     if os.path.exists(REPO_PATH):
         pretty_run_in_repo("hg pull --force")
