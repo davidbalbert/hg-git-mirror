@@ -1,4 +1,5 @@
 import os
+import base64
 
 VERSION = "0.0.1"
 
@@ -14,4 +15,4 @@ REPO_PATH = "tmp/%s" % REPO_NAME
 
 DEBUG = os.environ.get('DEBUG', False)
 
-PRIVATE_KEY = "\n".join(os.environ.get('PRIVATE_KEY').split("\t"))
+PRIVATE_KEY = base64.b64decode(os.environ.get('PRIVATE_KEY'))
