@@ -19,7 +19,7 @@ def index():
 @app.route('/hook', methods=["POST"])
 def hook():
     q.enqueue(clone_and_push)
-    return "push queued"
+    return "push queued\n"
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
