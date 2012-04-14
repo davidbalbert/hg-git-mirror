@@ -10,7 +10,7 @@ from constants import *
 app = Flask(__name__)
 
 # rq setup
-redis = Redis(REDIS_URL.hostname, REDIS_URL.port, REDIS_URL.password)
+redis = Redis(host=REDIS_URL.hostname, port=REDIS_URL.port, db=0, password=REDIS_URL.password)
 use_connection(redis)
 q = Queue()
 
