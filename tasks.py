@@ -15,7 +15,7 @@ def clone_and_push():
             f.write("git = %s\n" % GIT_REPO)
             f.write("\n")
             f.write("[ui]\n")
-            f.write("ssh = ssh -C -i tmp/id_rsa\n")
+            f.write("ssh = ssh -C -i ../id_rsa\n")
             f.write("\n")
             f.write("[extensions]\n")
             f.write("hgext.bookmarks =\n")
@@ -31,11 +31,7 @@ def run_with_private_key(cmd):
 
     os.chmod("tmp/id_rsa", stat.S_IRUSR | stat.S_IWUSR)
 
-    os.system("ls tmp/id_rsa")
-    os.system("cat tmp/id_rsa")
-
-    #pretty_run_in_repo(cmd)
-    os.system("cd %s && %s" % (REPO_PATH, cmd))
+    pretty_run_in_repo(cmd)
 
     os.remove("tmp/id_rsa")
 
