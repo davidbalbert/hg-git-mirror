@@ -1,4 +1,5 @@
 import os
+import stat
 from subprocess import Popen, PIPE, STDOUT
 
 from constants import *
@@ -13,13 +14,26 @@ def clone_and_push():
         with open(REPO_PATH + "/.hg/hgrc", "a") as f:
             f.write("git = %s\n" % GIT_REPO)
             f.write("\n")
+            f.write("[ui]\n")
+            f.write("ssh = ssh -C -i tmp/id_rsa\n")
+            f.write("\n")
             f.write("[extensions]\n")
             f.write("hgext.bookmarks =\n")
             f.write("hggit =\n")
 
         pretty_run_in_repo("hg bookmark -r default master")
 
-    pretty_run_in_repo("hg push --force git")
+    run_with_private_key("hg push --force git")
+
+def run_with_private_key(cmd):
+    with open("tmp/id_rsa", "w") as f:
+        f.write(PRIVATE_KEY)
+
+    os.chmod("tmp/id_rsa", stat.S_IRUSR | stat.S_IWUSR)
+
+    pretty_run_in_repo(cmd)
+
+    os.remove("tmp/id_rsa")
 
 def pretty_run(cmd):
     print("-----> " + cmd)

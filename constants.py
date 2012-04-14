@@ -13,3 +13,5 @@ REPO_NAME = HG_REPO.split("/")[-1]
 REPO_PATH = "tmp/%s" % REPO_NAME
 
 DEBUG = os.environ.get('DEBUG', False)
+
+PRIVATE_KEY = "\n".join(os.environ.get('PRIVATE_KEY').split("\t"))
