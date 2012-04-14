@@ -1,3 +1,6 @@
+import urlparse
+
+from redis import Redis
 from rq import use_connection, Queue
 from flask import Flask
 
@@ -7,7 +10,8 @@ from constants import *
 app = Flask(__name__)
 
 # rq setup
-use_connection()
+redis = Redis(REDIS_URL.hostname, REDIS_URL.port, REDIS_URL.password)
+use_connection(redis)
 q = Queue()
 
 app.debug = DEBUG

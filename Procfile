@@ -1,2 +1,2 @@
 web: python app.py
-worker: rqworker
+worker: python worker.py
