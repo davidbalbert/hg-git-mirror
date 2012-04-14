@@ -2,8 +2,8 @@ from constants import *
 
 def clone_and_push():
     if os.path.exists(REPO_PATH):
-        os.system("cd %s && hg pull --force" % REPO_PATH)
-        os.system("cd %s && hg update" % REPO_PATH)
+        run_in_repo("hg pull --force")
+        run_in_repo("hg update")
     else:
         os.system("hg clone %s %s" % (HG_REPO, REPO_PATH))
 
@@ -14,6 +14,9 @@ def clone_and_push():
             f.write("hgext.bookmarks =\n")
             f.write("hggit =\n")
 
-        os.system("cd %s && hg bookmark -r default master" % REPO_PATH)
+        run_in_repo("hg bookmark -r default master")
 
-    os.system("cd %s && hg push --force git" % REPO_PATH)
+    run_in_repo("hg push --force git")
+
+def run_in_repo(cmd):
+    os.system("cd %s && %s" % (REPO_PATH, cmd))
