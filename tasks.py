@@ -31,6 +31,9 @@ def run_with_private_key(cmd):
 
     os.chmod("tmp/id_rsa", stat.S_IRUSR | stat.S_IWUSR)
 
+    os.system("ls tmp/id_rsa")
+    os.system("cat tmp/id_rsa")
+
     pretty_run_in_repo(cmd)
 
     os.remove("tmp/id_rsa")
