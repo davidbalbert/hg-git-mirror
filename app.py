@@ -29,7 +29,7 @@ def hook():
 def gittest():
     from tasks import run_with_private_key
     os.system("pwd")
-    os.sysstem("find tmp")
+    os.system("find tmp")
     run_with_private_key("ssh -T git@github.com")
     return "results in the log"
 
